@@ -1,0 +1,19 @@
+:: new game
+POST: /
+payload = {}
+
+:: join game
+POST: /<game-id>
+payload = {'action': 'addplayer', 'args': {}}
+
+:: start game
+POST: /<game-id>
+payload = {'action': 'startgame', 'args': {'player_id': player_id, 'player_secret_key': player_secret_key}}
+
+:: get current game state
+GET: /<game-id
+payload = {'player_id': player_id, 'player_secret_key': player_secret_key}
+
+:: fire shot
+POST: /<game-id>
+payload = {'action': 'startgame', 'args': {'player_id': player_id,'player_secret_key': player_secret_key, 'target_id': target_id, 'coords': (0,0)}}
