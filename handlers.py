@@ -107,8 +107,8 @@ class GameHandler(BaseHandler):
             'startgame': self.startgame,
         }
         logging.info(game_id)
+        req = json.loads(self.request.body)
         if game_id:
-            req = json.loads(self.request.body)
             game = models.Game.all().filter('game_id = ', game_id).get()
             #try:
             logging.info(str(req))
@@ -118,7 +118,7 @@ class GameHandler(BaseHandler):
         else:
             game = models.Game()
             game.put()
-            self.json_response({'game_state': game.get_game_state(req['args']['player_id'], req['args']['player_secret_key'])})
+            self.json_response({'game_state': game.game_state})
 
     def fire(self, game, player_id, player_secret_key, target_id, coords):
         if game.player_authed(player_id, player_secret_key):
