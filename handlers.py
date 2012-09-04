@@ -42,7 +42,7 @@ class BaseHandler(webapp2.RequestHandler):
 
         # Set the response headers
         self.response.headers['Content-Type'] = 'application/json'
-
+        self.response.headers['Access-Control-Allow-Origin'] = '*'
         # Dump the response to string and output
         json_response_str = json.dumps(json_response_dict)
         self.response.write(json_response_str)
@@ -106,8 +106,8 @@ class GameHandler(BaseHandler):
             'startgame': self.startgame,
         }
         logging.info(game_id)
-        req = json.loads(self.request.body)
         if game_id:
+            req = json.loads(self.request.body)
             game = models.Game.all().filter('game_id = ', game_id).get()
             try:
                 logging.info(str(req))
