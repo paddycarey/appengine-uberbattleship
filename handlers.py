@@ -90,9 +90,8 @@ class GameHandler(BaseHandler):
     def get(self, game_id):
 
         if game_id:
-            req = json.loads(self.request.body)
-            player_id = req['player_id']
-            player_secret_key = req['player_secret_key']
+            player_id = self.request.get('player_id')
+            player_secret_key = self.request.get('player_secret_key')
             game = models.Game.all().filter('game_id = ', game_id).get()
             self.json_response({'game_state': game.get_game_state(player_id, player_secret_key)})
         else:
@@ -110,15 +109,15 @@ class GameHandler(BaseHandler):
         req = json.loads(self.request.body)
         if game_id:
             game = models.Game.all().filter('game_id = ', game_id).get()
-            #try:
-            logging.info(str(req))
-            actions[req['action']](game, **req['args'])
-            #except AttributeError:
-            #    self.abort(404)
+            try:
+                logging.info(str(req))
+                actions[req['action']](game, **req['args'])
+            except AttributeError:
+                self.abort(404)
         else:
             game = models.Game()
             game.put()
-            self.json_response({'game_state': game.game_state})
+            self.json_response({'player': game.player(game.player_ids[0]), 'game_state': game.game_state})
 
     def fire(self, game, player_id, player_secret_key, target_id, coords):
         if game.player_authed(player_id, player_secret_key):

@@ -11,8 +11,8 @@ POST: /<game-id>
 payload = {'action': 'startgame', 'args': {'player_id': player_id, 'player_secret_key': player_secret_key}}
 
 :: get current game state
-GET: /<game-id
-payload = {'player_id': player_id, 'player_secret_key': player_secret_key}
+POST: /<game-id>
+query = ?player_id=player_id&player_secret_key=player_secret_key
 
 :: fire shot
 POST: /<game-id>

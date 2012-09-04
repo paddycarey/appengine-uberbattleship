@@ -92,9 +92,18 @@ class Game(db.Model):
         else:
             return False
 
+    def player(self, player_id):
+        for player in self.players:
+            if player_id == player['id']:
+                return player
+        else:
+            return {}
+
     # Game logic
 
-    def fire_shot(self, player_id, target_id, coord):
+    def fire_shot(self, player_id, player_secret_key, target_id, coord):
+        if not self.player_authed(player_id, player_secret_key):
+            raise Exception('Not authorised... TRY A-FUCKING-GAIN!')
         if not self.started:
             raise Exception('Game hasn\'t started yet, CALM DOWN!!!1!')
         if not player_id == self.next_player_id:
