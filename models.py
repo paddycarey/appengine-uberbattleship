@@ -118,6 +118,7 @@ class Game(db.Model):
                 self.kill_player(target_id)
             return True
         else:
+            self.put()
             return False
 
     def check_alive(self, target_id):
@@ -175,7 +176,10 @@ class Game(db.Model):
         if self.player_authed(player_id, player_secret_key):
             game_state = self.game_state
             all_boards = game_state['board_state']
-            board = all_boards[player_id]
+            try:
+                board = all_boards[player_id]
+            except KeyError:
+                board = []
             game_state['board_state'] = board
             return game_state
         else:
