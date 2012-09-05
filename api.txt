@@ -16,4 +16,4 @@ query = ?player_id=player_id&player_secret_key=player_secret_key
 
 :: fire shot
 POST: /<game-id>
-payload = {'action': 'startgame', 'args': {'player_id': player_id,'player_secret_key': player_secret_key, 'target_id': target_id, 'coords': (0,0)}}
+payload = {'action': 'fire', 'args': {'player_id': player_id,'player_secret_key': player_secret_key, 'target_id': target_id, 'coords': (0,0)}}
