@@ -4,7 +4,7 @@ from operator import itemgetter
 import helpers
 import json
 import uuid
-
+import logging
 
 class Game(db.Model):
 
@@ -156,9 +156,12 @@ class Game(db.Model):
         if len(self.players) > 1 and len(players_alive) > 1:
             return False
         else:
-            self.winner = players_alive[0]['id']
-            self.started = False
-            return True
+            if not len(self.players) == 1:
+                self.winner = players_alive[0]['id']
+                self.started = False
+                return True
+            else:
+                return False
 
     # Return current game state as dict
 
@@ -170,6 +173,8 @@ class Game(db.Model):
         game_state['player_ids'] = self.player_ids
         game_state['board_state'] = self.board_state
         game_state['next_player_id'] = self.next_player_id
+        game_state['winner'] = self.winner
+        logging.info(str(game_state))
         return game_state
 
     def get_game_state(self, player_id, player_secret_key):
