@@ -110,7 +110,7 @@ class Game(db.Model):
             raise Exception('You are not the next player, WAIT YOUR TURN!')
         self.last_player_id = player_id
         board_state = self.board_state
-        if board_state[target_id][coord[0]][coord[1]] is not None:
+        if board_state[target_id][coord[0]][coord[1]] is not None and not board_state[target_id][coord[0]][coord[1]] == 'MISS!':
             board_state[target_id][coord[0]][coord[1]] = 'HIT!'
             self.board_state = board_state
             self.put()
@@ -118,6 +118,8 @@ class Game(db.Model):
                 self.kill_player(target_id)
             return True
         else:
+            board_state[target_id][coord[0]][coord[1]] = 'MISS!'
+            self.board_state = board_state
             self.put()
             return False
 
