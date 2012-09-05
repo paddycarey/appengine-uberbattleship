@@ -6,8 +6,8 @@ import requests
 import sys
 import time
 
-#api = 'https://uberbattleship.appspot.com/'
-api = 'http://127.0.0.1:8080/'
+api = 'https://uberbattleship.appspot.com/'
+#api = 'http://127.0.0.1:8080/'
 
 def new_game():
 	ng = requests.post(api, data='{}').json
