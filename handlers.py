@@ -96,7 +96,7 @@ class GameHandler(BaseHandler):
             self.json_response({'game_state': game.get_game_state(player_id, player_secret_key)})
         else:
             games = models.Game.all()
-            self.json_response([{'game_state': game.game_state} for game in games])
+            self.json_response([{'game_state': game.game_state} for game in games if game.is_winner()])
 
     def post(self, game_id):
 
